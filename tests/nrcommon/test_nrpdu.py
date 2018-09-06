@@ -1,11 +1,11 @@
 from unittest import TestCase
-from nruplane.nrcommon.nrpdu import nrpdu
+from nruplane.nrcommon.nrpdu import NrPdu
 
 
 class TestNrpdu(TestCase):
     def setUp(self):
-        self.iNrpdu = nrpdu()
+        self.iNrpdu = NrPdu()
 
     def test_Instance(self):
-        self.iNrpdu = nrpdu('abcd')
-        print(self.iNrpdu)
+        self.iNrpdu = NrPdu('abcd')
+        self.iNrpdu = NrPdu('0bcd')

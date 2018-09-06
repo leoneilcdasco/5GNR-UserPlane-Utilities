@@ -1,10 +1,10 @@
 from unittest import TestCase
-from nruplane.nrcommon.nrcommon import nrcommon
+from nruplane.nrcommon.nrcommon import NrCommon
 
 class TestNrcommon(TestCase):
 
     def setUp(self):
-        self.iNrCommon = nrcommon()
+        self.iNrCommon = NrCommon()
 
     def test_appendZeroIfNotByteAligned(self):
         exp = 'FF'

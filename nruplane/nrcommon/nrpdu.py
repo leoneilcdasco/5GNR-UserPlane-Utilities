@@ -1,11 +1,11 @@
-class nrpdu:
+class NrPdu:
     def __init__(self, byteStream=None):
         if byteStream==None:
             self.PduByteArray = bytearray()
         else:
             if isinstance(byteStream, str):
-                self.PduByteList = bytearray.fromhex(byteStream)
-                print(self.PduByteList)
+                self.PduByteArray = bytearray.fromhex(byteStream)
+                print(self.PduByteArray)
             else:
                 print("must be string")
 
