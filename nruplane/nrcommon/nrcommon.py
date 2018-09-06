@@ -1,5 +1,5 @@
 
-class nrcommon:
+class NrCommon:
     # def __init__(self) -> object
     def __init__(self):
         self.bDebugFlag = True
@@ -26,23 +26,13 @@ class nrcommon:
         print ('[{}]'.format(', '.join(hex(byte) for byte in byteList)))
 
     def hexStringToByteListBigEndian(self, byteHexStream):
-        self.printDebug(len(byteHexStream))
         byteHexStream = self.appendZeroIfNotByteAligned(byteHexStream)
-        byteList = []
-        numCharPerByte = 2
-        for i in range(0, len(byteHexStream), numCharPerByte):
-            self.printDebug('0x{:02x}'.format(int(byteHexStream[i:i + numCharPerByte], 16)))
-            byteList.append(int(byteHexStream[i:i + numCharPerByte], 16))
+        byteList = list(bytearray.fromhex(byteHexStream))
         self.printDebugByteListInHex(byteList)
         return byteList
 
     def hexStringToByteListLittleEndian(self, byteHexStream):
-        self.printDebug(len(byteHexStream))
-        byteHexStream = self.appendZeroIfNotByteAligned(byteHexStream)
-        byteList = []
-        numCharPerByte = 2
-        for i in range(len(byteHexStream) - 1, 0, -numCharPerByte):
-            self.printDebug('0x{:02x}'.format(int(byteHexStream[i - 1:i - 1 + numCharPerByte], 16)))
-            byteList.append(int(byteHexStream[i - 1:i - 1 + numCharPerByte], 16))
+        byteList = self.hexStringToByteListBigEndian(byteHexStream)
+        byteList.reverse()
         self.printDebugByteListInHex(byteList)
         return byteList
