@@ -11,30 +11,53 @@ class NrRlcUmPdu(NrPdu):
             print("WRN : Unsupported SN Length")
             return
 
-        self.LENGTH_SN = lengthSn
+        NrPdu.__init__(self)
+
+        self.SN_LENGTH = lengthSn
         self.NUM_HEADER_BYTES = 0
-
-        if (byteStream != None):
-            NrPdu.__init__(self, byteStream)
-            self.initFields()
-        else:
-            NrPdu.__init__(self)
-            self.initFieldsEmpty()
-
-    def evalSnLength(self, lengthSn):
-        return lengthSn != 6 and lengthSn != 12
-
-    def initFieldsEmpty(self):
         self.HeaderByteArray = bytearray()
         self.DataByteArray = bytearray()
         self.Si = 0
         self.Sn = 0
         self.So = 0
 
+        if (byteStream != None):
+            NrPdu.__init__(self, byteStream)
+            self.initFields()
+
+    def evalSnLength(self, lengthSn):
+        print(lengthSn)
+        return (lengthSn != 6 and lengthSn != 12)
+
     def getNumHeaderBytes(self, Si):
-        headerBits = self.SI_LENGTH + self.SO_LENGTH + self.LENGTH_SN if (Si != 0) else self.SI_LENGTH + self.LENGTH_SN
+        if Si == 0b00:
+            headerBits = self.SI_LENGTH
+        elif Si == 0b01:
+            headerBits = self.SI_LENGTH + self.SN_LENGTH
+        else:
+            headerBits = self.SI_LENGTH + self.SO_LENGTH + self.SN_LENGTH
+
         return math.ceil(headerBits / 8)
 
     def initFields(self):
         self.Si = (self.PduByteArray[0] & 0xC0) >> self.SI_BIT_OFFSET
         self.NUM_HEADER_BYTES = self.getNumHeaderBytes(self.Si)
+        print (self.NUM_HEADER_BYTES)
+        self.HeaderByteArray = self.PduByteArray[0:self.NUM_HEADER_BYTES]
+        print(self.HeaderByteArray)
+        self.DataByteArray = self.PduByteArray[self.NUM_HEADER_BYTES:]
+        print(self.DataByteArray)
+        self.parseSo()
+        print(self.So)
+        self.parseSn()
+        print(self.Sn)
+
+    def parseSo(self):
+        if self.Si > 0b01:
+            self.So = self.HeaderByteArray[self.NUM_HEADER_BYTES - 2 :]
+
+    def parseSn(self):
+        if self.Si > 0b00:
+            SnByteArray = self.HeaderByteArray[0]
+            self.Sn = self.HeaderByteArray[1]
+            print(hex(self.Sn))

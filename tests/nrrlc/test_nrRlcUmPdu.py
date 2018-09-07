@@ -9,9 +9,51 @@ class TestNrRlcUmPdu(TestCase):
         self.iNrRlcUmPdu = NrRlcUmPdu(6)
         self.iNrRlcUmPdu = NrRlcUmPdu(12)
 
-        testRlcUmPdu = "12FFFFFF"
+        testRlcUmPdu = "02AAAAFFFFFF"
         self.iNrRlcUmPdu = NrRlcUmPdu(12, testRlcUmPdu)
         expSi = 0
+        act = self.iNrRlcUmPdu.Si
+        self.assertEqual(act, expSi)
+
+        testRlcUmPdu = "7EAAAAFFFFFF"
+        self.iNrRlcUmPdu = NrRlcUmPdu(12, testRlcUmPdu)
+        expSi = 1
+        act = self.iNrRlcUmPdu.Si
+        self.assertEqual(act, expSi)
+
+        testRlcUmPdu = "8EAAAAFFFFFF"
+        self.iNrRlcUmPdu = NrRlcUmPdu(12, testRlcUmPdu)
+        expSi = 2
+        act = self.iNrRlcUmPdu.Si
+        self.assertEqual(act, expSi)
+
+        testRlcUmPdu = "CEAAAAFFFFFF"
+        self.iNrRlcUmPdu = NrRlcUmPdu(12, testRlcUmPdu)
+        expSi = 3
+        act = self.iNrRlcUmPdu.Si
+        self.assertEqual(act, expSi)
+
+        testRlcUmPdu = "02AAAAFFFFFF"
+        self.iNrRlcUmPdu = NrRlcUmPdu(6, testRlcUmPdu)
+        expSi = 0
+        act = self.iNrRlcUmPdu.Si
+        self.assertEqual(act, expSi)
+
+        testRlcUmPdu = "7EAAAAFFFFFF"
+        self.iNrRlcUmPdu = NrRlcUmPdu(6, testRlcUmPdu)
+        expSi = 1
+        act = self.iNrRlcUmPdu.Si
+        self.assertEqual(act, expSi)
+
+        testRlcUmPdu = "8EAAAAFFFFFF"
+        self.iNrRlcUmPdu = NrRlcUmPdu(6, testRlcUmPdu)
+        expSi = 2
+        act = self.iNrRlcUmPdu.Si
+        self.assertEqual(act, expSi)
+
+        testRlcUmPdu = "CEAAAAFFFFFF"
+        self.iNrRlcUmPdu = NrRlcUmPdu(6, testRlcUmPdu)
+        expSi = 3
         act = self.iNrRlcUmPdu.Si
         self.assertEqual(act, expSi)
 
