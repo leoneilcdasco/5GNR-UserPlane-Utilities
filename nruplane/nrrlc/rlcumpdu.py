@@ -58,6 +58,8 @@ class NrRlcUmPdu(NrPdu):
 
     def parseSn(self):
         if self.Si > 0b00:
-            SnByteArray = self.HeaderByteArray[0]
-            self.Sn = self.HeaderByteArray[1]
+            if self.SN_LENGTH == 12:
+                SnByteArray = self.HeaderByteArray[0]
+            elif self.SN_LENGTH == 6:
+                self.Sn = 5
             print(hex(self.Sn))
