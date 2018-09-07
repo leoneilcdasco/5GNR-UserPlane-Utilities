@@ -57,9 +57,13 @@ class NrRlcUmPdu(NrPdu):
             self.So = self.HeaderByteArray[self.NUM_HEADER_BYTES - 2 :]
 
     def parseSn(self):
+        tmpSnByteArray = bytearray()
         if self.Si > 0b00:
             if self.SN_LENGTH == 12:
-                SnByteArray = self.HeaderByteArray[0]
+                tmpSnByteArray = self.HeaderByteArray[0:1]
+                tmpSnByteArray[0] = tmpSnByteArray[0] & 0x0F
             elif self.SN_LENGTH == 6:
-                self.Sn = 5
-            print(hex(self.Sn))
+                tmpSnByteArray.append(self.HeaderByteArray[0] & 0x3F)
+            print((tmpSnByteArray.hex()))
+            # self.Sn = int(hex(tmpSnByteArray), 16)
+
