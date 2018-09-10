@@ -1,12 +1,14 @@
 from unittest import TestCase
 from nruplane.nrrlc.rlcumpdu import NrRlcUmPdu
-import pprint
 
 class TestNrRlcUmPdu(TestCase):
     def setUp(self):
-        print("TESTB")
+        print(' {:s} started '.format(self._testMethodName).center(50, '='))
 
-    def test_Instance(self):
+    def tearDown(self):
+        print(' {:s} ended '.format(self._testMethodName).center(50, '='))
+
+    def test_NrRlcUmPduInstance(self):
         self.iNrRlcUmPdu = NrRlcUmPdu(18)
 
         self.iNrRlcUmPdu = NrRlcUmPdu(6)

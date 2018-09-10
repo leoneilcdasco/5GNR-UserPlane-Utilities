@@ -4,7 +4,11 @@ from nruplane.nrcommon.nrcommon import NrCommon
 class TestNrcommon(TestCase):
 
     def setUp(self):
+        print(' {:s} started '.format(self._testMethodName).center(50, '='))
         self.iNrCommon = NrCommon()
+
+    def tearDown(self):
+        print(' {:s} ended '.format(self._testMethodName).center(50, '='))
 
     def test_appendZeroIfNotByteAligned(self):
         exp = 'FF'
