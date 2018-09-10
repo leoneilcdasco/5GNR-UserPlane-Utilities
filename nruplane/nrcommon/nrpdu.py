@@ -5,7 +5,6 @@ class NrPdu:
         else:
             if isinstance(byteStream, str):
                 self.PduByteArray = bytearray.fromhex(byteStream)
-                print(self.PduByteArray)
             else:
                 print("must be string")
 

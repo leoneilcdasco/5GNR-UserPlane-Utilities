@@ -2,7 +2,7 @@
 class NrCommon:
     # def __init__(self) -> object
     def __init__(self):
-        self.bDebugFlag = True
+        self.bDebugFlag = False
 
     def printDebug(self, printArg):
         if (self.bDebugFlag):
