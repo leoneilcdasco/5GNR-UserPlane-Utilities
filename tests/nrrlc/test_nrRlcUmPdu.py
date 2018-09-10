@@ -7,7 +7,9 @@ class TestNrRlcUmPdu(TestCase):
 
     def test_Instance(self):
         self.iNrRlcUmPdu = NrRlcUmPdu(6)
+        self.assertEqual(self.iNrRlcUmPdu.SN_LENGTH, 6)
         self.iNrRlcUmPdu = NrRlcUmPdu(12)
+        self.assertEqual(self.iNrRlcUmPdu.SN_LENGTH, 12)
 
         testRlcUmPdu = "02AAAAFFFFFF"
         self.iNrRlcUmPdu = NrRlcUmPdu(12, testRlcUmPdu)
