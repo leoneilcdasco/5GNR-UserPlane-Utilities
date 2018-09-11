@@ -49,7 +49,14 @@ class NrRlcAmPdu(NrPdu):
         return (lengthSn != 12 and lengthSn != 18)
 
     def initFields(self):
-        self.parseDcPSi()
+        self.parseDc()
+        if (self.Dc == 0b1):
+            self.parseDataPdu()
+        else:
+            self.parseControlPdu()
+
+    def parseDataPdu(self):
+        self.parsePSi()
         self.HEADER_NUM_BYTES = self.getNumHeaderBytes()
         self.HeaderByteArray = self.PduByteArray[0:self.HEADER_NUM_BYTES]
         self.DataByteArray = self.PduByteArray[self.HEADER_NUM_BYTES:]
@@ -62,8 +69,10 @@ class NrRlcAmPdu(NrPdu):
             headerBits += self.SO_LENGTH
         return math.ceil(headerBits / 8)
 
-    def parseDcPSi(self):
+    def parseDc(self):
         self.Dc = (self.PduByteArray[0] & self.DC_BIT_MASK) >> self.DC_BIT_OFFSET
+
+    def parsePSi(self):
         self.P  = (self.PduByteArray[0] & self.P_BIT_MASK) >> self.P_BIT_OFFSET
         self.Si = (self.PduByteArray[0] & self.SI_BIT_MASK) >> self.SI_BIT_OFFSET
 
@@ -79,6 +88,9 @@ class NrRlcAmPdu(NrPdu):
             tmpSnByteArray[0] = tmpSnByteArray[0] & self.SN_MSB_MASK_12BIT
 
         self.Sn = int(tmpSnByteArray.hex(), 16)
+
+    def parseControlPdu(self):
+        print("Parse Control PDU")
 
     def __str__(self):
         return  '{:d}-bit SN RLC AM PDU \n'.format(self.SN_LENGTH) \
