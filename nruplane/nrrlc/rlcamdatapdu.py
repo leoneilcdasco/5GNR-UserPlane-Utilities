@@ -1,17 +1,17 @@
 from nruplane.nrcommon.nrpdu import NrPdu
 import math
 
-class NrRlcAmPdu(NrPdu):
+class RlcAmDataPdu(NrPdu):
 
-    DC_LENGTH = 1
+    DC_BIT_LENGTH = 1
     DC_BIT_OFFSET = 7
     DC_BIT_MASK = 0x80
 
-    P_LENGTH = 1
+    P_BIT_LENGTH = 1
     P_BIT_OFFSET = 6
     P_BIT_MASK = 0x40
 
-    SI_LENGTH = 2
+    SI_BIT_LENGTH = 2
     SI_BIT_OFFSET = 4
     SI_BIT_MASK = 0x30
 
@@ -30,8 +30,8 @@ class NrRlcAmPdu(NrPdu):
         NrPdu.__init__(self)
 
         self.HEADER_NUM_BYTES = 0
-        self.SN_LENGTH = lengthSn
-        self.SN_NUM_BYTES = math.ceil(self.SN_LENGTH / 8)
+        self.SN_BIT_LENGTH = lengthSn
+        self.SN_NUM_BYTES = math.ceil(self.SN_BIT_LENGTH / 8)
 
         self.HeaderByteArray = bytearray()
         self.DataByteArray = bytearray()
@@ -64,7 +64,7 @@ class NrRlcAmPdu(NrPdu):
         self.parseSn()
 
     def getNumHeaderBytes(self):
-        headerBits = self.DC_LENGTH + self.P_LENGTH + self.SI_LENGTH + self.SN_LENGTH
+        headerBits = self.DC_BIT_LENGTH + self.P_BIT_LENGTH + self.SI_BIT_LENGTH + self.SN_BIT_LENGTH
         if self.Si > 0b01:
             headerBits += self.SO_LENGTH
         return math.ceil(headerBits / 8)
@@ -82,9 +82,9 @@ class NrRlcAmPdu(NrPdu):
 
     def parseSn(self):
         tmpSnByteArray = self.HeaderByteArray[0:self.SN_NUM_BYTES]
-        if self.SN_LENGTH == 18:
+        if self.SN_BIT_LENGTH == 18:
             tmpSnByteArray[0] = tmpSnByteArray[0] & self.SN_MSB_MASK_18BIT
-        elif self.SN_LENGTH == 12:
+        elif self.SN_BIT_LENGTH == 12:
             tmpSnByteArray[0] = tmpSnByteArray[0] & self.SN_MSB_MASK_12BIT
 
         self.Sn = int(tmpSnByteArray.hex(), 16)
@@ -93,10 +93,12 @@ class NrRlcAmPdu(NrPdu):
         print("Parse Control PDU")
 
     def __str__(self):
-        return  '{:d}-bit SN RLC AM PDU \n'.format(self.SN_LENGTH) \
+        return  '{:d}-bit SN RLC AM PDU \n'.format(self.SN_BIT_LENGTH) \
                 + 'Header\t: D/C = ' + '0b{:b} '.format(self.Dc) \
                 + 'P = ' + '0b{:b} '.format(self.P) \
                 + 'SI = ' + '0b{:02b} '.format(self.Si) \
                 + 'SN = ' + '0x{:02x} '.format(self.Sn) \
                 + 'SO = ' + '0x{:02x}'.format(self.So) \
                 + '\nData\t: ' + '0x{:s}'.format(self.DataByteArray.hex())
+
+

@@ -1,9 +1,9 @@
 from nruplane.nrcommon.nrpdu import NrPdu
 import math
 
-class NrRlcAmPdu(NrPdu):
+class RlcUmPdu(NrPdu):
 
-    SI_LENGTH = 2
+    SI_BIT_LENGTH = 2
     SI_BIT_OFFSET = 6
     SI_BIT_MASK = 0xC0
 
@@ -48,11 +48,11 @@ class NrRlcAmPdu(NrPdu):
 
     def getNumHeaderBytes(self, Si):
         if Si == 0b00:
-            headerBits = self.SI_LENGTH
+            headerBits = self.SI_BIT_LENGTH
         elif Si == 0b01:
-            headerBits = self.SI_LENGTH + self.SN_LENGTH
+            headerBits = self.SI_BIT_LENGTH + self.SN_LENGTH
         else:
-            headerBits = self.SI_LENGTH + self.SO_LENGTH + self.SN_LENGTH
+            headerBits = self.SI_BIT_LENGTH + self.SO_LENGTH + self.SN_LENGTH
         return math.ceil(headerBits / 8)
 
     def parseSi(self):
