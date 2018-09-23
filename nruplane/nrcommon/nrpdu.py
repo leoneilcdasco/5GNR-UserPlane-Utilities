@@ -6,5 +6,9 @@ class NrPdu:
             if isinstance(byteStream, str):
                 self.PduByteArray = bytearray.fromhex(byteStream)
             else:
-                print("argument must be hex string")
+                if hasattr(byteStream, 'decode'):
+                    self.PduByteArray = byteStream
+                    print(self.PduByteArray)
+                else:
+                    print("argument must be hex string or bytearray")
 

@@ -14,3 +14,7 @@ class TestNrpdu(TestCase):
     def test_NrPduInstance(self):
         self.iNrpdu = NrPdu('abcd')
         self.iNrpdu = NrPdu('0bcd')
+
+        tmp = bytearray.fromhex('0bcd')
+        self.iNrpdu = NrPdu(tmp)
+        self.iNrPdu = NrPdu(0xF78787878787)

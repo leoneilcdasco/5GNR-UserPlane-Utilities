@@ -1,65 +1,6 @@
 from nruplane.nrcommon.nrpdu import NrPdu
 import math
 
-
-class AckParams(NrPdu):
-
-    E1_BIT_LENGTH = 1
-    E1_BIT_OFFSET = 7
-    E1_BIT_MASK = 0x80
-
-    CPT_BIT_LENGTH = 3
-    CPT_BIT_OFFSET = 6
-    CPT_BIT_MASK = 0x70
-
-    P_LENGTH = 1
-    P_BIT_OFFSET = 6
-    P_BIT_MASK = 0x40
-
-    SI_LENGTH = 2
-    SI_BIT_OFFSET = 4
-    SI_BIT_MASK = 0x30
-
-    SO_LENGTH = 16
-    SO_NUM_BYTES = 2
-
-    # bit masks to extract the most significant bits of SN
-    ACK_SN_MSB_BIT_MASK = 0x0F
-
-    ACK_18BIT_SN_LSB_BIT_MASK = 0xFC
-    ACK_18BIT_SN_LSB_BIT_OFFSET = 0xFC
-
-    def __init__(self, lengthSn, byteStream=None):
-        if (self.evalSnLength(lengthSn)):
-            print("WRN : Unsupported SN Length")
-            return
-
-        NrPdu.__init__(self)
-
-        self.HEADER_NUM_BYTES = 0
-        self.SN_LENGTH = lengthSn
-        self.SN_NUM_BYTES = math.ceil(self.SN_LENGTH / 8)
-
-        self.HeaderByteArray = bytearray()
-        self.DataByteArray = bytearray()
-        self.Dc = 0
-        self.Cpt = 0
-        self.Ack = bytearray()
-        self.AckSn = 0
-        self.Nacks = []
-        self.NackSns = 0
-        self.P = 0
-        self.Si = 0
-        self.Sn = 0
-        self.So = 0
-
-        if (byteStream != None):
-            NrPdu.__init__(self, byteStream)
-            self.initFields()
-
-    def initFields(self):
-        self.parseDc()
-
 class RlcAmCtrlPdu(NrPdu):
 
     DC_BIT_LENGTH = 1
