@@ -12,3 +12,5 @@ class NrPdu:
                 else:
                     print("argument must be hex string or bytearray")
 
+    def getBitField(self, inputByte, bitMask, bitOffset):
+        return (inputByte & bitMask) >> bitOffset

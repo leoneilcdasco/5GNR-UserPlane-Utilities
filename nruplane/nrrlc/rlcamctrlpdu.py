@@ -1,4 +1,5 @@
 from nruplane.nrcommon.nrpdu import NrPdu
+from nruplane.nrrlc.rlcamack import RlcAmAck
 import math
 
 class RlcAmCtrlPdu(NrPdu):
@@ -102,6 +103,8 @@ class RlcAmCtrlPdu(NrPdu):
         self.Sn = int(tmpSnByteArray.hex(), 16)
 
     def parseControlPdu(self):
+        self.Ack = RlcAmAck(self.SN_LENGTH, self.PduByteArray[0:RlcAmAck.ACK_PARAM_BYTES])
+        print(str(self.Ack))
         print("Parse Control PDU")
 
     def __str__(self):

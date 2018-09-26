@@ -1,17 +1,26 @@
 from nruplane.nrcommon.nrpdu import NrPdu
 import math
 
-class RlcAmAck(NrPdu):
+class RlcAmNack(NrPdu):
 
     ACK_PARAM_BYTES = 3
 
     SN_BIT_LENGTH: int
-    E1_BIT_LENGTH = 1
+    E_BIT_LENGTH = 1
 
-    E1_18BIT_SN_BIT_OFFSET = 1
-    E1_18BIT_SN_MASK = 0x02
-    E1_12BIT_SN_BIT_OFFSET = 7
-    E1_12BIT_SN_MASK = 0x80
+    E1_18BIT_SN_BIT_OFFSET = 5
+    E1_18BIT_SN_MASK = 0x20
+    E2_18BIT_SN_BIT_OFFSET = 4
+    E2_18BIT_SN_MASK = 0x10
+    E3_18BIT_SN_BIT_OFFSET = 3
+    E3_18BIT_SN_MASK = 0x08
+
+    E1_12BIT_SN_BIT_OFFSET = 3
+    E1_12BIT_SN_MASK = 0x08
+    E2_12BIT_SN_BIT_OFFSET = 2
+    E2_12BIT_SN_MASK = 0x04
+    E3_12BIT_SN_BIT_OFFSET = 1
+    E3_12BIT_SN_MASK = 0x02
 
     # bit mask for SN MSB
     # same for 12-bit and 18-bit SN
@@ -56,6 +65,26 @@ class RlcAmAck(NrPdu):
                                        self.E1_18BIT_SN_BIT_OFFSET)
         elif self.SN_BIT_LENGTH == 12:
             self.E1 = self.getBitField(self.PduByteArray[self.ACK_PARAM_BYTES - 1],
+                                       self.E1_12BIT_SN_MASK,
+                                       self.E1_12BIT_SN_BIT_OFFSET)
+
+    def parseE2(self):
+        if self.SN_BIT_LENGTH == 18:
+            self.E2 = self.getBitField(self.PduByteArray[self.ACK_PARAM_BYTES - 1],
+                                       self.E1_18BIT_SN_MASK,
+                                       self.E1_18BIT_SN_BIT_OFFSET)
+        elif self.SN_BIT_LENGTH == 12:
+            self.E2 = self.getBitField(self.PduByteArray[self.ACK_PARAM_BYTES - 1],
+                                       self.E1_12BIT_SN_MASK,
+                                       self.E1_12BIT_SN_BIT_OFFSET)
+
+    def parseE1(self):
+        if self.SN_BIT_LENGTH == 18:
+            self.E2 = self.getBitField(self.PduByteArray[self.ACK_PARAM_BYTES - 1],
+                                       self.E1_18BIT_SN_MASK,
+                                       self.E1_18BIT_SN_BIT_OFFSET)
+        elif self.SN_BIT_LENGTH == 12:
+            self.E2 = self.getBitField(self.PduByteArray[self.ACK_PARAM_BYTES - 1],
                                        self.E1_12BIT_SN_MASK,
                                        self.E1_12BIT_SN_BIT_OFFSET)
 
