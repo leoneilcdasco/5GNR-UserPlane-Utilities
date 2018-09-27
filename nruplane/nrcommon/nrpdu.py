@@ -13,4 +13,7 @@ class NrPdu:
                     print("argument must be hex string or bytearray")
 
     def getBitField(self, inputByte, bitMask, bitOffset):
+        print('getBitField\t : inputByte = 0x{:02x} '.format(inputByte) \
+        + 'bitMask = ' + '0x{:02x} '.format(bitMask) \
+        + 'bitOffset = ' + '0x{:02x} '.format(bitOffset))
         return (inputByte & bitMask) >> bitOffset
