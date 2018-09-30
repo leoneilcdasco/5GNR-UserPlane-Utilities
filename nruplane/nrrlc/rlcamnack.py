@@ -38,7 +38,7 @@ class RlcAmNack(NrPdu):
     NACK_12BIT_SN_LSB_BIT_MASK = 0xF0
     NACK_12BIT_SN_LSB_BIT_OFFSET = 0x4
 
-    def __init__(self, lengthSn, byteStream=None):
+    def __init__(self, lengthSn, prevE1E2E3, byteStream=None):
         if (self.evalSnLength(lengthSn)):
             print("WRN : Unsupported SN Length")
             return
@@ -46,6 +46,7 @@ class RlcAmNack(NrPdu):
         NrPdu.__init__(self)
 
         self.SN_BIT_LENGTH = lengthSn
+        self.prevE1E2E3 = prevE1E2E3
         self.SN_NUM_BYTES = math.ceil(self.SN_BIT_LENGTH / 8)
 
         self.Sn = 0
