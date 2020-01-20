@@ -17,3 +17,4 @@ class NrPdu:
         + 'bitMask = ' + '0x{:02x} '.format(bitMask) \
         + 'bitOffset = ' + '0x{:02x} '.format(bitOffset))
         return (inputByte & bitMask) >> bitOffset
+
