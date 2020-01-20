@@ -116,3 +116,4 @@ class TestNrRlcAmCtrlPdu(TestCase):
         expData = bytearray.fromhex("FFFFFF")
         self.assertEqual(self.iNrRlcAmCtrlPdu.DataByteArray, expData)
         print(str(self.iNrRlcAmCtrlPdu))
+
