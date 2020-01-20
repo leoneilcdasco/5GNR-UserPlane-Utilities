@@ -1,4 +1,3 @@
-
 class NrCommon:
     # def __init__(self) -> object
     def __init__(self):
